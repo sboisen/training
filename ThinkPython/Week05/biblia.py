@@ -4,14 +4,14 @@ You need an API key to use this code.
 
 >>> import biblia
 >>> biblia.get_biblia_content('LEB', 'txt', 'Mark 4:9', 'YourKeyHere')
-Content for Mark 4:9 - And he said, "Whoever has ears to hear, let him hear!"
+Content for Mark 4:9: And he said, "Whoever has ears to hear, let him hear!"
 """
 
 # standard Python modules for working with and opening URLs
 import urllib
 import urllib2
 
-# my key is in here as
+# my key is in key.ps as
 # KEY = 'abcdefghi'
 from key import KEY
 
