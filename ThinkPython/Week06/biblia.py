@@ -3,12 +3,12 @@
 You need an API key to use this code. 
 
 >>> import biblia
->>> biblia.get_biblia_content('LEB', 'txt', 'Mark 4:9', 'YourKeyHere')
+# note you need to replace spaces with '+' in the passage reference for this version
+>>> biblia.get_biblia_content('LEB', 'txt', 'Mark+4:9')
 Content for Mark 4:9: And he said, "Whoever has ears to hear, let him hear!"
 """
 
-# standard Python modules for working with and opening URLs
-import urllib
+# standard Python module for opening URLs
 import urllib2
 
 # my key is in key.py as
@@ -28,9 +28,12 @@ def construct_url(base_url, passage, apikey=KEY):
     """Ensure URL, PASSAGE, and APIKEY are properly combined and
     encoded for opening a resource. Assumes the Bible version and
     return type are already in URL.
+    
+    Limitation: PASSAGE needs to have '+' rather than spaces, e.g. 'Mark+4:9',
+    otherwise you'll get a HTTP Error. 
     """
-    return base_url + '?' + urllib.urlencode({'passage': passage,
-                                              'key': apikey})
+    # urllib.urlencode() does this more generally 
+    return base_url + '?' + 'passage=' + passage + '&' + 'key=' + apikey
     
 def fetch_url(url):
     req = urllib2.urlopen(url)
@@ -43,5 +46,7 @@ def print_result(passage, str):
 
 def get_biblia_content(bible, format, passage, apikey=KEY):
     base = construct_base_url(bible, format)
-    result = fetch_url(construct_url(base, passage, apikey))
+    full_url = construct_url(base, passage, apikey)
+    #print 'full_url:', full_url
+    result = fetch_url(full_url)
     print_result(passage, result)
